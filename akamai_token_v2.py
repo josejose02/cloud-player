@@ -2,7 +2,7 @@
 
 # Copyright (c) 2012, Akamai Technologies, Inc.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -13,7 +13,7 @@
 #     * Neither the name of Akamai Technologies nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -436,35 +436,27 @@ if __name__ == '__main__':
         action='store_true', default=False, dest='verbose',
         help='')
     (options, args) = parser.parse_args()
-    try:
-        generator = AkamaiToken(
-            options.query_strings,
-            options.token_type,
-            options.token_name,
-            options.ip_address,
-            options.start_time,
-            options.end_time,
-            options.window_seconds,
-            options.url,
-            options.access_list,
-            options.key,
-            options.payload,
-            options.algorithm,
-            options.salt,
-            options.session_id,
-            options.field_delimiter,
-            options.acl_delimiter,
-            options.escape_early,
-            options.escape_early_upper,
-            options.verbose)
-        new_token = generator.generateToken()
-        if generator.warnings:
-            print('\n'.join(generator.warnings))
-        print('%s' % new_token)
-    except AkamaiTokenError( ex):
-        print('%s\n' % ex)
-        sys.exit(1)
-    except Exception(ex):
-        print(str(ex))
-        sys.exit(1)
-
+    generator = AkamaiToken(
+        options.query_strings,
+        options.token_type,
+        options.token_name,
+        options.ip_address,
+        options.start_time,
+        options.end_time,
+        options.window_seconds,
+        options.url,
+        options.access_list,
+        options.key,
+        options.payload,
+        options.algorithm,
+        options.salt,
+        options.session_id,
+        options.field_delimiter,
+        options.acl_delimiter,
+        options.escape_early,
+        options.escape_early_upper,
+        options.verbose)
+    new_token = generator.generateToken()
+    if generator.warnings:
+        print('\n'.join(generator.warnings))
+    print('%s' % new_token)

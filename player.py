@@ -21,25 +21,24 @@ def player(id):
     variable = '--key=' +token_id
     token_auth = ''
     try:
-        result = subprocess.check_output(['python','akamai_token_v2.py','--window=300', variable,'--acl=/*'])
-        a = result.rstrip()
-        print(a)
-        resp = jsonify({'params':a})
-        res = resp.json()
-        token_auth = res['params']
+        result = subprocess.check_output(['python','akamai_token_v2.py','--window=7200', variable,'--acl=/*'])
+        token_auth = result.decode("utf-8")
+        token_auth = token_auth.rstrip()
     except:
         print('Error!')
     player_url = 'https://liveplayer.josestream.com'
+    src = src + '?hdnts=' + token_auth
     params = {'src':src, 'token':token_auth, 'name':name, 'player_cdn':player_url}
     return render_template('player.html', params=params)
 
-@app.route('/token/<token_id>', methods = ['POST'])
+@app.route('/token/<token_id>', methods = ['GET'])
 def token(token_id):
     variable = '--key=' +token_id
-    try:
-        result = subprocess.check_output(['python','akamai_token_v2.py','--window=300', variable,'--acl=/*'])
-    except:
-        result = 'Error!'
+    print(variable)
+    #try:
+    result = subprocess.check_output(['python','akamai_token_v2.py','--window=7200', variable,'--url=/*'])
+    ##except:
+    #    result = 'Error!'
     a = result
     response = jsonify({'params':a})
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -140,4 +139,4 @@ def stream():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1',port=80,debug=True)
+    app.run(host='0.0.0.0',port=8080,debug=True)

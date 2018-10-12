@@ -21,10 +21,10 @@ class josestreamCloud(object):
 
     def responseStatus(self, res):
         if res.status_code == 200:
-            print("Success")
+            #print("Success")
             return True
         else:
-            print("Error!")
+            print("Error! - Request")
             print(res.content)
             return False
 
@@ -53,7 +53,6 @@ class josestreamCloud(object):
         response = requests.get(self.url+"/stream_targets/"+identifier, headers=self.headers)
         self.responseStatus(response)
         response = response.json()
-        print(response)
         base = response['stream_target'] #Base
         streamCode = base['stream_name']
         hls = base['hls_playback_url']
@@ -68,8 +67,6 @@ class josestreamCloud(object):
         response = requests.get(self.url+"/stream_targets/"+identifier+"/token_auth", headers=self.headers)
         self.responseStatus(response)
         response = response.json()
-        print('----'*10)
-        print(response)
         return response['token_auth']['trusted_shared_secret']
 
     def createGeoBlock(self, code, ok):
