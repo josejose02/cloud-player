@@ -1,28 +1,36 @@
 from flask import Flask
 from flask import jsonify
+from flask import render_template
 import subprocess
 import requests
 import json
 import os,binascii
-from wowzaCloudAPI import .
+from wowzaCloudAPI import josestreamCloud
 
 app = Flask(__name__)
 
-@app.route('player/<id>', methods=['GET'])
+@app.route('/player/<id>', methods=['GET'])
 def player(id):
-    if id == 1:
-        cloud_id = 'bx1vkpcc'
-        name = 'Reconciliate con Dios'
+    cloud_id = 'bx1vkpcc'
+    name = 'Reconciliate con Dios'
+
     res = josestreamCloud()
-    res = res.getTarget(cloud_id)
+    response = res.getTarget(cloud_id)
     token_id = res.getToken(cloud_id)
-    src = res['hls_playback']
+    src = response['hls_playback']
     variable = '--key=' +token_id
+    token_auth = ''
     try:
         result = subprocess.check_output(['python','akamai_token_v2.py','--window=300', variable,'--acl=/*'])
+        a = result.rstrip()
+        print(a)
+        resp = jsonify({'params':a})
+        res = resp.json()
+        token_auth = res['params']
     except:
-        result = 'Error!'
-    params = {'src'=src, 'token'=token, 'name'=name}
+        print('Error!')
+    player_url = 'https://liveplayer.josestream.com'
+    params = {'src':src, 'token':token_auth, 'name':name, 'player_cdn':player_url}
     return render_template('player.html', params=params)
 
 @app.route('/token/<token_id>', methods = ['POST'])
@@ -37,8 +45,8 @@ def token(token_id):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/player/<player_id>', methods = ['GET'])
-def player(player_id):
+@app.route('/player3/<player_id>', methods = ['GET'])
+def player2(player_id):
     #try:
     #    r = requests.get('http://api.josestream.com/v1/stream/'+player_id)
     #    r = r.json()
@@ -132,4 +140,4 @@ def stream():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5002,debug=True)
+    app.run(host='127.0.0.1',port=80,debug=True)
