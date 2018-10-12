@@ -1,0 +1,118 @@
+<html>
+
+<head>
+
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>-->
+  <link href="/v7/video.js/dist/video-js.min.css" rel="stylesheet">
+  <link href="/0.3/4.css" rel="stylesheet" >
+  <link rel="stylesheet" href="/v7/videojs-contrib-ads/dist/videojs-contrib-ads.css" />
+  <link rel="stylesheet" href="/v7/videojs-ima/dist/videojs.ima.css" />
+
+
+
+  <style>
+
+  body{
+    background-color: brown;
+  }
+
+  </style>
+</head>
+
+
+
+<body>
+
+  <video id="playerA247" class="video-js vjs-fluid" title='{{name}}'>
+    <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    </p>
+  </video>
+
+  <script src="/v7/hls.js/dist/hls.min.js"></script>
+  <script src="/v7/videojs-hls/videojs-hls.js"></script>
+  <script src="/v7/video.js/dist/video.min.js"></script>
+  <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="/v7/videojs-contrib-ads/dist/videojs-contrib-ads.js"></script>
+  <script src="/v7/videojs-ima/dist/videojs.ima.js"></script>
+  <script src="/v7/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
+
+<!--<script src="https://unpkg.com/@videojs/http-streaming@1.2.5/dist/videojs-http-streaming.min.js">
+
+</script>-->
+
+  <script>
+
+/*
+  var options = {
+    controls: true,
+    preload : "auto",
+    width: 640,
+    height: 264,
+    controlBar: {
+      volumePanel: {
+        inline: false
+      }
+    },
+  };
+
+  var player = videojs('playerA247', options, function onPlayerReady() {
+    videojs.log('Your player is ready!');
+  });
+  player.src({
+
+    src: 'https://wowzaprod5-i.akamaihd.net/hls/live/254383/ea8b6dad/playlist.m3u8',
+
+    type: 'application/x-mpegURL',
+
+    withCredentials: false
+
+  });
+  player.on(['loadstart', 'play', 'playing', 'firstplay', 'pause', 'ended', 'adplay', 'adplaying', 'adfirstplay', 'adpause', 'adended', 'contentplay', 'contentplaying', 'contentfirstplay', 'contentpause', 'contentended', 'contentupdate', 'loadeddata', 'loadedmetadata'], function(e) {
+    console.warn('Player event: ',  e.type);
+  });
+
+*/
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  var player = videojs("playerA247", {
+      techOrder: ["hlsjs", "html5", "flash"],
+      autoplay: false,
+      controls: true,
+      preload : "metadata",
+      width: 640,
+      height: 264,
+      controlBar: {
+        volumePanel: {
+          inline: false
+        },
+      },},
+     );
+
+  player.src({
+    src: '{{src}}{{token}}',
+    type: 'application/x-mpegURL',
+  });
+  //https://wowzaprod5-i.akamaihd.net/hls/live/254383/ea8b6dad/playlist.m3u8 p4i2y9c9.stackpathcdn.com
+
+
+
+   x = player.qualityLevels();
+
+console.log(x);
+
+    var options = {
+      id: 'playerA247',
+      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?slotname=/124319096/external/ad_rule_samples&sz=640x480&ciu_szs=300x250&unviewed_position_start=1&output=xml_vast3&impl=s&env=vp&gdfp_req=1&ad_rule=0&vad_type=linear&vpos=preroll&pod=1&ppos=1&lip=true&min_ad_duration=0&max_ad_duration=30000&vrid=5776&cust_params=deployment%3Ddevsite%26sample_ar%3Dpreonly&url=https://developers.google.com/interactive-media-ads/docs/sdks/html5/tags&video_doc_id=short_onecue&cmsid=496&kfa=0&tfcd=1'
+
+    };
+
+    var clicky_custom = clicky_custom || {};
+    clicky_custom.html_media_track = 1;
+
+    //player.ima(options);
+
+  </script>
+
+</body>
+</html>
